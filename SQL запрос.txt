@@ -1,0 +1,24 @@
+CREATE TABLE [dbo].[Products] (
+    [Id]   INT           IDENTITY (1, 1) NOT NULL,
+    [Name] NVARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+INSERT INTO Products (Name) VALUES (N'Хлеб'),(N'Автомобиль'),(N'Мыло'),(N'Веревка'),(N'Шампунь'),(N'Молоко');
+CREATE TABLE [dbo].[Categories] (
+    [Id]   INT           IDENTITY (1, 1) NOT NULL,
+    [Name] NVARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+INSERT INTO Categories (Name) VALUES (N'Провиант'),(N'Мыльнорыльное'),(N'Техника'),(N'В наличии');
+
+CREATE TABLE [dbo].[ProductCategory] (
+    [Id]       INT           IDENTITY (1, 1) NOT NULL,
+    [ProductId]  INT FOREIGN KEY REFERENCES Products(Id) NULL,
+    [CategoryId]   INT FOREIGN KEY REFERENCES Categories(Id) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+INSERT INTO ProductCategory (ProductId,CategoryId) VALUES (6,1),(6,4),(1,1),(2,3),(3,2),(3,4),(5,2);
+
+SELECT DISTINCT Products.Name AS 'Продукт', Categories.Name AS 'Категория' FROM Products
+LEFT JOIN ProductCategory ON Products.Id = ProductCategory.ProductId
+LEFT JOIN Categories ON Categories.Id = ProductCategory.CategoryId;
